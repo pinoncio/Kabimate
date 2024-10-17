@@ -1,0 +1,51 @@
+.navbar {
+  background-color: #a47551;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  width: 100%;
+  height: 80px; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box; 
+}
+
+.navbar-title {
+  color: #fff; 
+  text-decoration: none; 
+  font-size: 1.8rem; 
+  margin-left: 1rem; 
+}
+
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-link {
+  color: #fff;
+  text-decoration: none; 
+  margin-right: 1rem; 
+}
+
+.navbar-login {
+  color: #fff; 
+  text-decoration: none; 
+  display: flex;
+  align-items: center;
+}
+
+.navbar-login svg {
+  margin-right: 0.5rem;
+}
+
+.navbar-help-icon {
+  color: #fff; 
+  font-size: 1.5rem;
+  margin-left: 1rem; 
+  cursor: pointer;
+}

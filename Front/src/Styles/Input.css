@@ -1,0 +1,8 @@
+.input {
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc; /* Bordes grises */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 1rem; /* Tamaño de fuente */
+  width: 100%; /* Ancho completo */
+}
