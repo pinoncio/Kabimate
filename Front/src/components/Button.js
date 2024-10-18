@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Styles/Login.css';
 
 const Button = ({ text, onClick, icon }) => {
   return (
