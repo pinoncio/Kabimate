@@ -1,6 +1,13 @@
 import express, {Application} from 'express';
 import cors from 'cors';
 
+//importar modelos
+import { Rol } from './rol';
+import { Institucion } from './institucion';
+import { Usuario } from './usuario';
+//importar rutas
+import routesUsuario from '../routes/usuarioRoutes'
+
 class Server {
     private app: Application;
     private port: string;
@@ -10,9 +17,10 @@ class Server {
         this.port = '3001';
 
         this.midlewares();
+        this.routes();
         this.listen();
         this.dbConnect();
-        this.routes();
+
     }
 
     listen(){
@@ -21,6 +29,7 @@ class Server {
         })
     }
     routes() {
+        this.app.use('/api/usuarios', routesUsuario);
     }
     midlewares(){
         this.app.use(express.json());
@@ -29,6 +38,10 @@ class Server {
 
     async dbConnect(){
         try {
+            await Rol.sync();
+            await Institucion.sync();
+            await Usuario.sync();
+
 
         } catch (error){
             console.log('No se ha podido establecer conexion a la base de datos')

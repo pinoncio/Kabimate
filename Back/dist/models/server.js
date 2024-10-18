@@ -14,14 +14,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+//importar modelos
+const rol_1 = require("./rol");
+const institucion_1 = require("./institucion");
+const usuario_1 = require("./usuario");
+//importar rutas
+const usuarioRoutes_1 = __importDefault(require("../routes/usuarioRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
         this.port = '3001';
         this.midlewares();
+        this.routes();
         this.listen();
         this.dbConnect();
-        this.routes();
     }
     listen() {
         this.app.listen(this.port, () => {
@@ -29,6 +35,7 @@ class Server {
         });
     }
     routes() {
+        this.app.use('/api/usuarios', usuarioRoutes_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
@@ -37,6 +44,9 @@ class Server {
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                yield rol_1.Rol.sync();
+                yield institucion_1.Institucion.sync();
+                yield usuario_1.Usuario.sync();
             }
             catch (error) {
                 console.log('No se ha podido establecer conexion a la base de datos');
