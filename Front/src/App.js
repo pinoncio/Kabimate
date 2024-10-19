@@ -4,7 +4,8 @@ import { AuthProvider} from './services/AuthContext';
 import Home from './pages/Home'; 
 import Login from './pages/Login';
 import Admin from './pages/Admin';
-import User from './pages/User';
+import UserPage from './pages/User';
+import RolPage from './pages/rol';
 
 const App = () => {
   return (
@@ -14,7 +15,8 @@ const App = () => {
         <Route path="/" element={<Home />} /> {/* Página de inicio */}
         <Route path="/login" element={<Login />} /> {/* Página de login */}
         <Route path="/admin" element={<Admin/>} />
-        <Route path="/userc" element={<User/>} />
+        <Route path="/userc" element={<UserPage/>} />
+        <Route path="/rolc" element={<RolPage/>} />
       </Routes>
     </Router>
     </AuthProvider>

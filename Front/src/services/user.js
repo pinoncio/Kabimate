@@ -6,6 +6,7 @@ const API_URL = 'http://localhost:3001/api/usuarios';
 export const getUsers = () => axios.get(`${API_URL}/list`);
 
 export const getUser = (id_usuario) => axios.get(`${API_URL}/${id_usuario}`);
+
 export const CreateUser = (user) => axios.post(API_URL, user);
 
 export const updateUser = async (id_usuario, user) => {

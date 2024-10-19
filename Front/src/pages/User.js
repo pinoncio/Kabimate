@@ -1,144 +1,151 @@
-import React, { useState, useEffect } from 'react';
-import { loadUsers, createUser, loadRoles } from '../components/CreateUsers'; 
-import Navbar from '../components/Navbar'; // Asegúrate de que la ruta sea correcta
-import '../Styles/User.css';
+import React, { useEffect, useState } from 'react';
+import { loadUsers, loadRoles, loadInstitutions, createUser } from '../components/CreateUsers';
+import '../Styles/User.css'
+import Navbar from '../components/Navbar';
 
-const User = () => {
-  const [users, setUsers] = useState([]);
-  const [roles, setRoles] = useState([]);
-  const [createMode, setCreateMode] = useState(false); 
-  const [newUser, setNewUser] = useState({
-    rut_usuario: '',
-    nombre1_usuario: '',
-    nombre2_usuario: '',
-    apellido1_usuario: '',
-    apellido2_usuario: '',
-    correo: '',
-    contrasena: '', 
-    id_rol: ''
-  });
 
-  useEffect(() => {
-    loadUsers(setUsers);
-    loadRoles(setRoles);
-  }, []);
-
-  const handleCreate = () => {
-    setCreateMode(true);
-    setNewUser({
-      rut_usuario: '',
-      nombre1_usuario: '',
-      nombre2_usuario: '',
-      apellido1_usuario: '',
-      apellido2_usuario: '',
-      correo: '',
-      contrasena: '', 
-      id_rol: ''
+const UserPage = () => {
+    const [users, setUsers] = useState([]);
+    const [roles, setRoles] = useState([]);
+    const [institutions, setInstitutions] = useState([]);
+    const [createMode, setCreateMode] = useState(false);
+    const [newUser, setNewUser] = useState({
+        NOMBRE1_USUARIO: '',
+        NOMBRE2_USUARIO: '',
+        APELLIDO1_USUARIO: '',
+        APELLIDO2_USUARIO: '',
+        RUT_USUARIO: '',
+        CONTRASENIA_USUARIO: '',
+        EMAIL_USUARIO: '',
+        ESTADO_CUENTA: true, 
+        ID_INSTITUCION_USUARIO: '',
+        ID_ROL_USUARIO: ''
     });
-  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await createUser(newUser, () => {
-      loadUsers(setUsers);
-      setCreateMode(false);
-      setNewUser({
-        rut_usuario: '',
-        nombre1_usuario: '',
-        nombre2_usuario: '',
-        apellido1_usuario: '',
-        apellido2_usuario: '',
-        correo: '',
-        contrasena: '', 
-        id_rol: ''
-      });
-    });
-  };
+    useEffect(() => {
+        loadUsers(setUsers);
+        loadRoles(setRoles);
+        loadInstitutions(setInstitutions);
+    }, []);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setNewUser({
-      ...newUser,
-      [name]: value
-    });
-  };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewUser(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
-  return (
-    <div className="container">
-      <Navbar /> {/* Aquí se agrega el Navbar */}
-      <h1>Lista de Usuarios</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>RUT</th>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Correo</th>
-            <th>Rol</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id_usuario}>
-              <td>{user.rut_usuario}</td>
-              <td>{user.nombre1_usuario} {user.nombre2_usuario}</td>
-              <td>{`${user.apellido1_usuario} ${user.apellido2_usuario}`}</td>
-              <td>{user.correo}</td>
-              <td>{roles.find(rol => rol.id_rol === user.id_rol)?.nombre_rol || 'Desconocido'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <button className="create-button" onClick={handleCreate}>Crear Usuario</button>
-      {createMode && (
-        <form onSubmit={handleSubmit} className="create-form">
-          <div className="form-group">
-            <label>RUT de la Persona</label>
-            <input type="text" name="rut_usuario" value={newUser.rut_usuario} onChange={handleChange} required />
+    const handleCreateUser = async (e) => {
+        e.preventDefault();
+        await createUser(newUser, loadUsers, setCreateMode);
+        setNewUser({ // Resetear el formulario después de crear
+            NOMBRE1_USUARIO: '',
+            NOMBRE2_USUARIO: '',
+            APELLIDO1_USUARIO: '',
+            APELLIDO2_USUARIO: '',
+            RUT_USUARIO: '',
+            CONTRASENIA_USUARIO: '',
+            EMAIL_USUARIO: '',
+            ESTADO_CUENTA: true,
+            ID_INSTITUCION_USUARIO: '',
+            ID_ROL_USUARIO: ''
+        });
+    };
+
+    return (
+      <div>
+          <Navbar /> {/* Agrega el Navbar aquí */}
+          <div className="container">
+              <h1>Lista de Usuarios</h1>
+              <div className="table-container">
+                  <table>
+                      <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Nombre</th>
+                              <th>Apellido</th>
+                              <th>Email</th>
+                              <th>Estado</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {users.map(user => (
+                              <tr key={user.ID_USUARIO}>
+                                  <td>{user.ID_USUARIO}</td>
+                                  <td>{`${user.NOMBRE1_USUARIO} ${user.NOMBRE2_USUARIO}`}</td>
+                                  <td>{`${user.APELLIDO1_USUARIO} ${user.APELLIDO2_USUARIO}`}</td>
+                                  <td>{user.EMAIL_USUARIO}</td>
+                                  <td>{user.ESTADO_CUENTA ? 'Activo' : 'Inactivo'}</td>
+                              </tr>
+                          ))}
+                      </tbody>
+                  </table>
+              </div>
+              <button className="create-button" onClick={() => setCreateMode(!createMode)}>
+                  {createMode ? 'Cancelar' : 'Crear Usuario'}
+              </button>
+              {createMode && (
+                  <form className="create-form" onSubmit={handleCreateUser}>
+                      <h2>Crear Usuario</h2>
+                      <div className="form-group">
+                          <label>Nombre 1</label>
+                          <input type="text" name="NOMBRE1_USUARIO" onChange={handleInputChange} required />
+                      </div>
+                      <div className="form-group">
+                          <label>Nombre 2</label>
+                          <input type="text" name="NOMBRE2_USUARIO" onChange={handleInputChange} />
+                      </div>
+                      <div className="form-group">
+                          <label>Apellido 1</label>
+                          <input type="text" name="APELLIDO1_USUARIO" onChange={handleInputChange} required />
+                      </div>
+                      <div className="form-group">
+                          <label>Apellido 2</label>
+                          <input type="text" name="APELLIDO2_USUARIO" onChange={handleInputChange} />
+                      </div>
+                      <div className="form-group">
+                          <label>RUT</label>
+                          <input type="text" name="RUT_USUARIO" onChange={handleInputChange} required />
+                      </div>
+                      <div className="form-group">
+                          <label>Contraseña</label>
+                          <input type="password" name="CONTRASENIA_USUARIO" onChange={handleInputChange} required />
+                      </div>
+                      <div className="form-group">
+                          <label>Email</label>
+                          <input type="email" name="EMAIL_USUARIO" onChange={handleInputChange} required />
+                      </div>
+                      <div className="form-group">
+                          <label>Institución</label>
+                          <select name="ID_INSTITUCION_USUARIO" onChange={handleInputChange} required>
+                              <option value="">Seleccione Institución</option>
+                              {institutions.map(institution => (
+                                  <option key={institution.ID_INSTITUCION} value={institution.ID_INSTITUCION}>
+                                      {institution.nombre}
+                                  </option>
+                              ))}
+                          </select>
+                      </div>
+                      <div className="form-group">
+                          <label>Rol</label>
+                          <select name="ID_ROL_USUARIO" onChange={handleInputChange} required>
+                              <option value="">Seleccione Rol</option>
+                              {roles.map(role => (
+                                  <option key={role.ID_ROL} value={role.ID_ROL}>
+                                      {role.nombre}
+                                  </option>
+                              ))}
+                          </select>
+                      </div>
+                      <div className="form-buttons">
+                          <button type="submit">Crear Usuario</button>
+                      </div>
+                  </form>
+              )}
           </div>
-          <div className="form-group">
-            <label>Primer Nombre</label>
-            <input type="text" name="nombre1_usuario" value={newUser.nombre1_usuario} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label>Segundo Nombre</label>
-            <input type="text" name="nombre2_usuario" value={newUser.nombre2_usuario} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Primer Apellido</label>
-            <input type="text" name="apellido1_usuario" value={newUser.apellido1_usuario} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label>Segundo Apellido</label>
-            <input type="text" name="apellido2_usuario" value={newUser.apellido2_usuario} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Correo electrónico</label>
-            <input type="email" name="correo" value={newUser.correo} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label>Contraseña</label>
-            <input type="password" name="contrasena" value={newUser.contrasena} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label>Rol del Usuario Nuevo</label>
-            <select name="id_rol" value={newUser.id_rol} onChange={handleChange} required>
-              <option value="">Seleccione un rol</option>
-              {roles.map((rol) => (
-                <option key={rol.id_rol} value={rol.id_rol}>
-                  {rol.nombre_rol}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-buttons">
-            <button type="submit">Crear</button>
-            <button type="button" className="cancel-button" onClick={() => setCreateMode(false)}>Cancelar</button>
-          </div>
-        </form>
-      )}
-    </div>
+      </div>
   );
 };
 
-export default User;
+export default UserPage;
