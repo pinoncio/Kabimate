@@ -1,0 +1,103 @@
+body {
+    background-color: #f5f5f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0; /* Eliminamos el padding del body */
+}
+
+.container {
+    display: flex; /* Usamos flexbox */
+    flex-direction: column; /* Alineamos elementos en columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    max-width: 800px;
+    margin: 200px auto; /* Añadir margen superior para no chocar con el navbar */
+    background-color: #fff; /* Fondo blanco para el contenedor */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    color: #a47551; /* Color del título */
+    text-align: center;
+}
+
+.table-container {
+    width: 100%; /* Asegura que la tabla ocupe el ancho completo */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #a47551; /* Color de fondo de los encabezados */
+    color: white; /* Color de texto de los encabezados */
+}
+
+tr:hover {
+    background-color: #f0e7e0; /* Color de fondo al pasar el mouse sobre filas */
+}
+
+.create-button, .delete-button, .cancel-button {
+    background-color: #a47551; /* Color de fondo para botones */
+    color: white; /* Color de texto de los botones */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.create-button:hover, .delete-button:hover, .cancel-button:hover {
+    background-color: #8f5c43; /* Color más oscuro al pasar el mouse sobre botones */
+}
+
+.create-form {
+    width: 100%; /* Asegura que el formulario ocupe el ancho completo */
+    margin-top: 20px;
+    border: 1px solid #ddd; /* Borde del formulario */
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #fff; /* Fondo blanco para el formulario */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333; /* Color del texto de las etiquetas */
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+button[type="submit"] {
+    background-color: #a47551; /* Color de fondo para el botón de envío */
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #8f5c43; /* Color más oscuro al pasar el mouse */
+}
