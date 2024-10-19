@@ -4,7 +4,7 @@ const express_1 = require("express");
 const rolController_1 = require("../controllers/rolController");
 const router = (0, express_1.Router)();
 router.post('/', rolController_1.newRol);
-router.put('/update', rolController_1.updateRol);
+router.put('/update/:id_rol', rolController_1.updateRol);
 router.delete('/delete/:id_rol', rolController_1.deleteRol);
 router.get('/list', rolController_1.getRoles);
 router.get('/:id_rol', rolController_1.getRol);
