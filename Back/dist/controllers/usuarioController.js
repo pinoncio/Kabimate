@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.updateUsuario = exports.activarUsuario = exports.desactivarUsuario = exports.newUsuario = void 0;
+exports.getUsuarios = exports.getUsuario = exports.loginUser = exports.updateUsuario = exports.activarUsuario = exports.desactivarUsuario = exports.newUsuario = void 0;
 const usuario_1 = require("../models/usuario");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -206,3 +206,35 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ token, rol: usuarioRol, idUsuario: usuarioId });
 });
 exports.loginUser = loginUser;
+const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_usuario } = req.params;
+    try {
+        const usuario = yield usuario_1.Usuario.findOne({ where: { ID_USUARIO: id_usuario } });
+        if (!usuario) {
+            return res.status(404).json({
+                msg: "El usuario con id: " + id_usuario + " no existe"
+            });
+        }
+        res.json(usuario);
+    }
+    catch (error) {
+        return res.status(400).json({
+            msg: 'Ha ocurrido un error al encontrar el usuario con id: ' + id_usuario,
+            error
+        });
+    }
+});
+exports.getUsuario = getUsuario;
+const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const usuarios = yield usuario_1.Usuario.findAll();
+        res.json(usuarios);
+    }
+    catch (error) {
+        return res.status(400).json({
+            msg: 'Ha ocurrido un error al obtener la lista de usuarios',
+            error
+        });
+    }
+});
+exports.getUsuarios = getUsuarios;

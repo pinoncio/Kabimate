@@ -6,7 +6,9 @@ import { Rol } from './rol';
 import { Institucion } from './institucion';
 import { Usuario } from './usuario';
 //importar rutas
-import routesUsuario from '../routes/usuarioRoutes'
+import routesUsuario from '../routes/usuarioRoutes';
+import routesRol from '../routes/rolRoutes';
+import routesInstitucion from '../routes/institucionRoutes';
 
 class Server {
     private app: Application;
@@ -14,7 +16,7 @@ class Server {
 
     constructor() {
         this.app= express();
-        this.port = '3001';
+        this.port = process.env.PORT || '3001';
 
         this.midlewares();
         this.routes();
@@ -29,7 +31,10 @@ class Server {
         })
     }
     routes() {
+        this.app.use('/api/instituciones', routesInstitucion);
+        this.app.use('/api/roles', routesRol);
         this.app.use('/api/usuarios', routesUsuario);
+        
     }
     midlewares(){
         this.app.use(express.json());

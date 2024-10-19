@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { newUsuario, desactivarUsuario, activarUsuario, updateUsuario, loginUser } from '../controllers/usuarioController';
+import { newUsuario, desactivarUsuario, activarUsuario, updateUsuario, loginUser, getUsuarios, getUsuario } from '../controllers/usuarioController';
 
 const router = Router();
 
@@ -8,5 +8,7 @@ router.put('/desactivar/:id_usuario', desactivarUsuario as any);
 router.put('/activar/:id_usuario', activarUsuario as any);
 router.put('/update/:id_usuario', updateUsuario as any);
 router.post('/login', loginUser as any);
+router.get('/list', getUsuarios as any);
+router.get('/:id_usuario', getUsuario as any);
 
 export default router;

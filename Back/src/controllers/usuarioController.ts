@@ -200,4 +200,34 @@ export const loginUser = async(req: Request, res: Response) =>{
         rol: usuarioRol
     }, process.env.SECRET_KEY || 'PRUEBA1'); // , {expiresIn: '10000'} como tercer parametro para timepo de expiracion del token
     res.json({token, rol: usuarioRol, idUsuario: usuarioId});
-}
+};
+
+export const getUsuario = async(req: Request, res: Response)=> {
+    const { id_usuario } = req.params;
+    try{
+        const usuario = await Usuario.findOne({where: {ID_USUARIO: id_usuario}})
+        if (!usuario) {
+            return res.status(404).json({
+                msg: "El usuario con id: " + id_usuario + " no existe"
+            })
+        }
+        res.json(usuario)
+        }catch (error){
+            return res.status(400).json({
+                msg: 'Ha ocurrido un error al encontrar el usuario con id: '+id_usuario,
+                error
+            })
+        }
+};
+
+export const getUsuarios = async(req: Request, res: Response)=> {
+    try{
+        const usuarios = await Usuario.findAll()
+        res.json(usuarios)
+        }catch (error){
+            return res.status(400).json({
+                msg: 'Ha ocurrido un error al obtener la lista de usuarios',
+                error
+            })
+        }
+};
