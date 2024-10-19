@@ -20,10 +20,12 @@ const institucion_1 = require("./institucion");
 const usuario_1 = require("./usuario");
 //importar rutas
 const usuarioRoutes_1 = __importDefault(require("../routes/usuarioRoutes"));
+const rolRoutes_1 = __importDefault(require("../routes/rolRoutes"));
+const institucionRoutes_1 = __importDefault(require("../routes/institucionRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
-        this.port = '3001';
+        this.port = process.env.PORT || '3001';
         this.midlewares();
         this.routes();
         this.listen();
@@ -35,6 +37,8 @@ class Server {
         });
     }
     routes() {
+        this.app.use('/api/instituciones', institucionRoutes_1.default);
+        this.app.use('/api/roles', rolRoutes_1.default);
         this.app.use('/api/usuarios', usuarioRoutes_1.default);
     }
     midlewares() {

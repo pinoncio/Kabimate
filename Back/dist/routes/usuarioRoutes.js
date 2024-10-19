@@ -8,4 +8,6 @@ router.put('/desactivar/:id_usuario', usuarioController_1.desactivarUsuario);
 router.put('/activar/:id_usuario', usuarioController_1.activarUsuario);
 router.put('/update/:id_usuario', usuarioController_1.updateUsuario);
 router.post('/login', usuarioController_1.loginUser);
+router.get('/list', usuarioController_1.getUsuarios);
+router.get('/:id_usuario', usuarioController_1.getUsuario);
 exports.default = router;
