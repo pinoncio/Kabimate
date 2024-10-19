@@ -1,73 +1,81 @@
+/* Estilo general del contenedor principal */
 .login-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Mantener la altura del wrapper al 100% */
+  height: 100vh; /* Ocupa toda la pantalla */
   background-color: #f5f5f0; /* Blanco beige */
+  padding: 20px; /* Asegura espacio en pantallas pequeñas */
+  box-sizing: border-box;
 }
 
 .login-title {
   color: #a47551; /* Café claro */
-  font-size: 3rem; /* Aumenta el tamaño del título */
-  margin-bottom: 10px;
+  font-size: 3rem; /* Tamaño del título */
+  margin-bottom: 50px; /* Espacio debajo del título */
+  text-align: center;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra el contenido del formulario */
-  width: 400px; /* Aumenta el ancho del formulario */
+  width: 100%; 
+  max-width: 400px; /* Limita el ancho máximo del formulario */
 }
 
+/* Ajuste para los inputs */
 .input {
-  padding: 16px; /* Aumenta el padding para los campos de entrada */
-  margin-bottom: 1.5rem; /* Espacio entre los campos */
+  padding: 16px; 
+  margin-bottom: 1.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1.2rem; /* Aumenta el tamaño de la fuente en los inputs */
-  width: 100%; /* Asegúrate de que los campos ocupen el ancho completo */
+  font-size: 1.2rem; 
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
+/* Contenedor para el botón */
 .button-container {
-  display: flex; /* Usamos flexbox para centrar el botón */
-  justify-content: center; /* Centra el botón horizontalmente */
-  margin-top: 1rem; /* Espacio arriba del botón */
-  width: 100%; /* Asegúrate de que el contenedor ocupe el ancho completo */
+  display: flex; 
+  width: 100%; 
+  margin-top: 1rem;
 }
 
+/* Estilo del botón */
 .button {
   padding: 12px;
   background-color: #a47551; 
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  width: 100%; /* Asegúrate de que el botón ocupe todo el ancho del contenedor */
+  width: 100%; /* Mismo ancho que los inputs */
+  max-width: 400px; /* Opcional: Evitar que crezca más del diseño */
 }
-
 
 .button:hover {
   background-color: #8b6140;
 }
 
+/* Estilo del enlace de recuperar contraseña */
 .recover-password {
-  color: #a47551; /* Color del mensaje normal */
-  font-size: 1rem; /* Tamaño del texto */
-  margin-top: 1rem; /* Espacio encima del mensaje */
-  text-decoration: none; /* Sin subrayado */
-  cursor: pointer; /* Cambia el cursor a puntero */
+  color: #a47551; 
+  font-size: 1rem; 
+  margin-top: 1rem; 
+  text-decoration: none; 
+  cursor: pointer;
 }
 
 .recover-password:hover {
-  color: #8b6140; /* Color al pasar el mouse sobre el texto */
+  color: #8b6140;
 }
 
-
+/* Estilo del copyright */
 .copyright {
-  margin-top: 2rem; /* Espacio encima del copyright */
-  font-size: 0.9rem; /* Tamaño más pequeño */
-  color: #a47551; /* Color del copyright */
-  text-align: center; /* Centra el texto */
+  margin-top: 2rem; 
+  font-size: 0.9rem; 
+  color: #a47551;
+  text-align: center;
 }
