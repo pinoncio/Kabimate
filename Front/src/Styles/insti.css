@@ -1,0 +1,22 @@
+/* styles.css */
+
+.table-custom {
+    border: 2px solid #a47551; /* Borde de la tabla */
+}
+
+.table-custom th, .table-custom td {
+    border-color: #a47551; /* Color de los bordes de las celdas */
+}
+
+.btn-custom {
+    background-color: #a47551; /* Botón personalizado */
+    color: white; /* Color de texto del botón */
+}
+
+.modal-header {
+    background-color: #f8f9fa; /* Color de fondo del encabezado del modal */
+}
+
+.modal-footer {
+    background-color: #f1f1f1; /* Color de fondo del pie del modal */
+}

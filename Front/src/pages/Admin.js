@@ -20,7 +20,7 @@ const Admin = () => {
         <div className="hexagon delete-user">
           <p>Eliminar Usuario</p>
         </div>
-        <div className="hexagon create-institution">
+        <div className="hexagon create-institution" >
           <p>Crear Institución</p>
         </div>
         <div className="hexagon edit-institution">

@@ -14,7 +14,7 @@ export const updateUser = async (id_usuario, user) => {
       const response = await axios.put(`${API_URL}/${id_usuario}`, user);
       return response.data;
     } catch (error) {
-      console.error('Error al obtener ventas del usuario:', error);
+      console.error('Error al obtener usuario:', error);
       throw error;
     }
   };

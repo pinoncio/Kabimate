@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Admin from './pages/Admin';
 import UserPage from './pages/User';
 import RolPage from './pages/rol';
+import Insti from './pages/Insti';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/admin" element={<Admin/>} />
         <Route path="/userc" element={<UserPage/>} />
         <Route path="/rolc" element={<RolPage/>} />
+        <Route path='/insti' element={<Insti/>} />
       </Routes>
     </Router>
     </AuthProvider>
