@@ -6,11 +6,12 @@ import { Rol } from '../models/rol';
 import { Institucion } from '../models/institucion';
 
 export const newUsuario = async(req: Request, res: Response) => {
-    const {email,rut_usuario, contrasenia, nombre1_usuario, nombre2_usuario, apellido1_usuario, apellido2_usuario} = req.body;
+    const {email,rut_usuario, contrasenia, nombre1_usuario, nombre2_usuario, apellido1_usuario, apellido2_usuario,id_institucion,id_rol} = req.body;
     const usuarioCorreo = await Usuario.findOne({where: {EMAIL_USUARIO: email}});
     const usuarioRut = await Usuario.findOne({where: {RUT_USUARIO: rut_usuario}});
-    const institucion = await Institucion.findOne({where: {ID_INSTITUCION: 1}});
-    const rol = await Rol.findOne({where: {ID_ROL: 1}});
+    const institucion = await Institucion.findOne({ where: { ID_INSTITUCION: id_institucion } });
+    const rol = await Rol.findOne({ where: { ID_ROL: id_rol } });
+    
     if(usuarioCorreo) {
         return res.status(400).json({
             msg: 'Ya existe una cuenta con el email ingresado'
@@ -21,6 +22,7 @@ export const newUsuario = async(req: Request, res: Response) => {
             msg: 'Ya existe un usuario con el rut ingresado'
         })
     }
+    
     if(!institucion){
         try{
             await Institucion.create({
@@ -59,8 +61,8 @@ export const newUsuario = async(req: Request, res: Response) => {
             "APELLIDO2_USUARIO": apellido2_usuario,
             "EMAIL_USUARIO": email,
             "ESTADO_CUENTA": true,
-            "ID_INSTITUCION_USUARIO": 1,
-            "ID_ROL_USUARIO": 1
+            "ID_INSTITUCION_USUARIO": id_institucion,
+            "ID_ROL_USUARIO": id_rol
         })
         return res.status(201).json({
             msg: 'Usuario creado correctamente'

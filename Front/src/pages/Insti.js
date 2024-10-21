@@ -1,115 +1,24 @@
-import React, { useEffect, useState } from 'react';
+// pages/InstiPage.js
+import React from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { show_alerta } from '../functions';
 import Navbar from '../components/Navbar';
-import { getInstituciones, createInstitucion, updateInstitucion, deleteInstitucion } from '../services/Insti'; 
+import useInstituciones from '../Hooks/useInstituciones'; 
 import '../Styles/insti.css';
 
-const Insti = () => {
-  const [institucion, setInstitucion] = useState([]);
-  const [id_instituciones, setId] = useState('');
-  const [nombre_institucion, setName] = useState('');
-  const [tipo_institucion, setType] = useState('');
-  const [operation, setOperation] = useState(1);
-  const [title, setTitle] = useState('');
-
-  useEffect(() => {
-    getAllInstituciones();
-  }, []);
-
-  const getAllInstituciones = async () => {
-    try {
-      const respuesta = await getInstituciones();
-      console.log('Datos de instituciones:', respuesta);
-      setInstitucion(respuesta);
-    } catch (error) {
-      console.error('Error al obtener instituciones:', error);
-    }
-  };
-
-  const openModal = (op, id_instituciones, nombre_institucion, tipo_institucion) => {
-    setId(id_instituciones || '');
-    setName(nombre_institucion || '');
-    setType(tipo_institucion || '');
-    setOperation(op);
-    setTitle(op === 1 ? 'Registrar Institución' : 'Editar Institución');
-    window.setTimeout(() => {
-      document.getElementById('nombre').focus();
-    }, 500);
-  };
-
-  const validar = () => {
-    if (nombre_institucion.trim() === '') {
-      show_alerta('Escribe el nombre de la institución', 'warning');
-      return;
-    } else if (tipo_institucion.trim() === '') {
-      show_alerta('Escribe el tipo de institución', 'warning');
-      return;
-    }
-
-    const parametros = { nombre_institucion: nombre_institucion.trim(), tipo_institucion: tipo_institucion.trim() };
-    if (operation === 1) {
-      createNewInstitucion(parametros);
-    } else {
-      updateExistingInstitucion(id_instituciones, parametros);
-    }
-  };
-
-  const createNewInstitucion = async (institucion) => {
-    console.log('Datos a enviar para crear:', institucion);
-    try {
-      const response = await createInstitucion(institucion);
-      console.log('Respuesta al crear institución:', response); 
-      show_alerta(response.msg, 'success'); 
-      document.getElementById('btnCerrar').click();
-      getAllInstituciones();
-    } catch (error) {
-      console.error('Error al crear la institución:', error);
-      show_alerta('Error al crear la institución', 'error');
-    }
-  };
-
-  const updateExistingInstitucion = async (id_institucion, institucion) => {
-    console.log('Datos a enviar para actualizar:', institucion);
-    
-    try {
-      const response = await updateInstitucion(id_institucion, institucion);
-      console.log('Respuesta al actualizar institución:', response); 
-      show_alerta('La institución fue editada con éxito.', 'success');
-      document.getElementById('btnCerrar').click();
-      getAllInstituciones();
-    } catch (error) {
-      console.error('Error al actualizar la institución:', error); 
-      show_alerta('Error al actualizar la institución', 'error');
-    }
-  };
-
-  const deleteExistingInstitucion = (id_institucion, nombre_institucion) => {
-    const MySwal = withReactContent(Swal);
-    MySwal.fire({
-      title: `¿Está seguro/a de eliminar la Institución ${nombre_institucion}?`,
-      icon: 'question',
-      text: 'No se podrá dar marcha atrás',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = await deleteInstitucion(id_institucion); 
-          console.log('Respuesta al eliminar institución:', response); 
-          show_alerta('La institución fue eliminada con éxito.', 'success');
-          getAllInstituciones(); 
-        } catch (error) {
-          console.error('Error al eliminar la institución:', error); 
-          show_alerta('Error al eliminar la institución', 'error');
-        }
-      } else {
-        show_alerta('La institución NO fue eliminada', 'info');
-      }
-    });
-  };
+const InstiPage = () => {
+  const {
+    institucion,
+    nombre_institucion,
+    tipo_institucion,
+    title,
+    operation,
+    openModal,
+    validar,
+    setName,
+    setType,
+    deleteExistingInstitucion,
+  } = useInstituciones();
 
   return (
     <div className='App'>
@@ -119,15 +28,15 @@ const Insti = () => {
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
             <div className='d-grid mx-auto'>
-            <button 
-              onClick={() => openModal(1)} 
-              className='btn w-100'
-              style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
-              data-bs-toggle='modal' 
-              data-bs-target='#modalInstituciones'
-            >
-              <i className='fa fa-plus-circle mt-2'></i> Añadir Institución
-            </button>
+              <button 
+                onClick={() => openModal(1)} 
+                className='btn w-100'
+                style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+                data-bs-toggle='modal' 
+                data-bs-target='#modalInstituciones'
+              >
+                <i className='fa fa-plus-circle mt-2'></i> Añadir Institución
+              </button>
             </div>
           </div>
         </div>
@@ -188,12 +97,11 @@ const Insti = () => {
               </div>
               <div className='d-grid col-6 mx-auto'>
                 <button onClick={() => validar()} className='btn btn-success'>
-                  <i className='fa-solid fa-floppy-disk'></i> Guardar
+                  {operation === 1 ? 'Registrar' : 'Actualizar'}
+                  <i className='fas fa-save ms-2'></i> {/* Ícono de disco a la derecha */}
                 </button>
+                <button id='btnCerrar' type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
               </div>
-            </div>
-            <div className='modal-footer'>
-              <button type='button' id='btnCerrar' className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
             </div>
           </div>
         </div>
@@ -202,4 +110,4 @@ const Insti = () => {
   );
 };
 
-export default Insti;
+export default InstiPage;

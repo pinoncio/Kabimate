@@ -1,23 +1,47 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/usuarios';
+const url = 'http://localhost:3001/api/usuarios';
 
-export const getUsers = () => axios.get(`${API_URL}/list`);
+export const getUsers = async () => {
+  try {
+    const respuesta = await axios.get(`${url}/list`);
+    console.log(respuesta.data)
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al obtener Usuarios:', error);
+    throw error;
+  }
+};
 
-export const getUser = (id_usuario) => axios.get(`${API_URL}/${id_usuario}`);
-
-export const CreateUser = (user) => axios.post(API_URL, user);
+export const createUser = async (user) => {
+  try {
+    const response = await axios.post(url, user);
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear el usuario:', error);
+    throw error;
+  }
+};
 
 export const updateUser = async (id_usuario, user) => {
-    try {
-      const response = await axios.put(`${API_URL}/${id_usuario}`, user);
-      return response.data;
-    } catch (error) {
-      console.error('Error al obtener usuario:', error);
-      throw error;
-    }
-  };
-  
+  try {
+    const response = await axios.put(`${url}/update/${id_usuario}`, user);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar el usuario:', error);
+    throw error;
+  }
+};
 
-export const deleteUser = (id_usuario) => axios.delete(`${API_URL}/${id_usuario}`);
+export const deleteUser = async (id_usuario) => {
+  try {
+    const response = await axios.delete(`${url}/delete/${id_usuario}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar el usuario:', error);
+    throw error;
+  }
+};
+
+export const getUser = (id_usuario) => axios.get(`${url}/${id_usuario}`);
