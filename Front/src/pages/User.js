@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { loadUsers, loadRoles, loadInstitutions, createUser } from '../components/CreateUsers';
+import { loadUsers, loadRoles, createUser } from '../components/CreateUsers';
 import '../Styles/User.css'
 import Navbar from '../components/Navbar';
 
@@ -25,7 +25,6 @@ const UserPage = () => {
     useEffect(() => {
         loadUsers(setUsers);
         loadRoles(setRoles);
-        loadInstitutions(setInstitutions);
     }, []);
 
     const handleInputChange = (e) => {

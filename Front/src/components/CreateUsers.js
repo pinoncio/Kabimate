@@ -1,6 +1,6 @@
 import { getUsers, deleteUser, updateUser, CreateUser } from '../services/user';
 import { getRoles } from '../services/rol';
-import { getInstituciones } from '../services/institucion';
+
 
 export const loadUsers = async (setUsers) => {
     try {
@@ -20,14 +20,6 @@ export const loadUsers = async (setUsers) => {
     }
   };
   
-  export const loadInstitutions = async (setInstitutions) => {
-    try {
-      const response = await getInstituciones();
-      setInstitutions(response.data);
-    } catch (error) {
-      console.error('Error fetching instituciones:', error.response ? error.response.data : error.message);
-    }
-  };
   
   export const deleteUserHandler = async (id_usuario, loadUsers) => {
     try {

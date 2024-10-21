@@ -49,7 +49,6 @@ const Insti = () => {
     }
 
     const parametros = { nombre_institucion: nombre_institucion.trim(), tipo_institucion: tipo_institucion.trim() };
-    
     if (operation === 1) {
       createNewInstitucion(parametros);
     } else {
@@ -98,7 +97,8 @@ const Insti = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await deleteInstitucion(id_institucion); // Usa la función del servicio
+          const response = await deleteInstitucion(id_institucion); 
+          console.log('Respuesta al eliminar institución:', response); 
           show_alerta('La institución fue eliminada con éxito.', 'success');
           getAllInstituciones(); 
         } catch (error) {
@@ -115,13 +115,19 @@ const Insti = () => {
     <div className='App'>
       <Navbar />
       <hr></hr>
-      <div className='container-fluid mt-5'>
+      <div className='container-fluid mt-5 '>
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
             <div className='d-grid mx-auto'>
-              <button onClick={() => openModal(1)} className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalInstituciones'>
-                <i className='fa-solid fa-circle-plus'></i> Añadir
-              </button>
+            <button 
+              onClick={() => openModal(1)} 
+              className='btn w-100'
+              style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
+              data-bs-toggle='modal' 
+              data-bs-target='#modalInstituciones'
+            >
+              <i className='fa fa-plus-circle mt-2'></i> Añadir Institución
+            </button>
             </div>
           </div>
         </div>
@@ -132,7 +138,6 @@ const Insti = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>INSTITUCIÓN</th>
                     <th>NOMBRE</th>
                     <th>TIPO</th>
                     <th></th>

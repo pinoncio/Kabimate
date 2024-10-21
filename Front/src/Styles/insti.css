@@ -1,22 +1,35 @@
-/* styles.css */
-
-.table-custom {
-    border: 2px solid #a47551; /* Borde de la tabla */
+.table-wrapper {
+    border: 2px solid #a47551;  /* Borde con color personalizado */
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra ligera */
+  }
+  
+  .table-custom thead th {
+    background-color: #a47551;  /* Fondo del encabezado */
+    color: white;
+    text-align: center;
+    border: 1px solid #a47551;  /* Borde entre encabezados */
+  }
+  
+  .table-custom tbody td {
+    text-align: center;
+    border: 1px solid #ddd;  /* Borde de las celdas */
+  }
+  
+  .btn-custom {
+    margin-right: 5px;  /* Espacio entre botones */
+  }
+  
+  .btn-cafe {
+  background-color: #a47551;
+  border-color: #a47551;
+  color: white;
 }
 
-.table-custom th, .table-custom td {
-    border-color: #a47551; /* Color de los bordes de las celdas */
-}
-
-.btn-custom {
-    background-color: #a47551; /* Botón personalizado */
-    color: white; /* Color de texto del botón */
-}
-
-.modal-header {
-    background-color: #f8f9fa; /* Color de fondo del encabezado del modal */
-}
-
-.modal-footer {
-    background-color: #f1f1f1; /* Color de fondo del pie del modal */
+.btn-cafe:hover {
+  background-color: #8a5c3d;
+  border-color: #8a5c3d;
 }

@@ -1,33 +1,24 @@
 import React from 'react';
-import Navbar from '../components/Navbar'; // Asegúrate de que la ruta sea correcta
+import { useNavigate } from 'react-router-dom';  // Importa useNavigate
+import Navbar from '../components/Navbar';
 import '../Styles/Admin.css';
 
 const Admin = () => {
+  const navigate = useNavigate();  
+
   return (
     <div className="admin-wrapper">
-      <Navbar /> {/* Navbar visible */}
+      <Navbar />
       <h1 className="admin-title">Panel de Administración</h1>
       <div className="honeycomb-grid">
-        <div className="hexagon create-user">
-          <p>Crear Usuario</p>
+        <div className="hexagon user" onClick={() => navigate('/user')}>
+          <p>Gestión de Usuarios</p>
         </div>
-        <div className="hexagon edit-user">
-          <p>Editar Usuario</p>
+        <div className="hexagon roles" onClick={() => navigate('/rol')}>
+          <p>Gestión de Roles</p>
         </div>
-        <div className="hexagon block-user">
-          <p>Bloquear Usuario</p>
-        </div>
-        <div className="hexagon delete-user">
-          <p>Eliminar Usuario</p>
-        </div>
-        <div className="hexagon create-institution" >
-          <p>Crear Institución</p>
-        </div>
-        <div className="hexagon edit-institution">
-          <p>Editar Institución</p>
-        </div>
-        <div className="hexagon delete-institution">
-          <p>Eliminar Institución</p>
+        <div className="hexagon delete-user" onClick={() => navigate('/insti')}>
+          <p>Gestión de Instituciones</p>
         </div>
       </div>
     </div>

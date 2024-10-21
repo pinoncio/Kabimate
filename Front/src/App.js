@@ -16,8 +16,8 @@ const App = () => {
         <Route path="/" element={<Home />} /> {/* Página de inicio */}
         <Route path="/login" element={<Login />} /> {/* Página de login */}
         <Route path="/admin" element={<Admin/>} />
-        <Route path="/userc" element={<UserPage/>} />
-        <Route path="/rolc" element={<RolPage/>} />
+        <Route path="/user" element={<UserPage/>} />
+        <Route path="/rol" element={<RolPage/>} />
         <Route path='/insti' element={<Insti/>} />
       </Routes>
     </Router>

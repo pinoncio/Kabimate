@@ -1,15 +1,44 @@
+// services/Insti.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api/roles';
+const url = 'http://localhost:3001/api/roles';
 
-// Obtener todos los roles
-export const getRoles = () => axios.get(`${API_URL}/list`);
+export const getRoles = async () => {
+  try {
+    const respuesta = await axios.get(`${url}/list`);
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al obtener roles:', error);
+    throw error;
+  }
+};
 
-// Crear un nuevo rol
-export const createRol = (rol) => axios.post(API_URL, rol);
+export const createRol = async (rol) => {
+  try {
+    const response = await axios.post(url, rol);
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear la rol:', error);
+    throw error;
+  }
+};
 
-// Actualizar un rol existente
-export const updateRol = (id_rol, rol) => axios.put(`${API_URL}/update`, { id_rol, ...rol });
+export const updateRol = async (id_rol, rol) => {
+  try {
+    const response = await axios.put(`${url}/update/${id_rol}`, rol);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar el rol:', error);
+    throw error;
+  }
+};
 
-// Eliminar un rol
-export const deleteRol = (id_rol) => axios.delete(`${API_URL}/delete/${id_rol}`);
+export const deleteRol = async (id_rol) => {
+  try {
+    const response = await axios.delete(`${url}/delete/${id_rol}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar el rol:', error);
+    throw error;
+  }
+};
