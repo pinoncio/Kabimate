@@ -1,7 +1,4 @@
-// pages/InstiPage.js
 import React from 'react';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 import Navbar from '../components/Navbar';
 import useInstituciones from '../Hooks/useInstituciones'; 
 import '../Styles/insti.css';
@@ -98,7 +95,7 @@ const InstiPage = () => {
               <div className='d-grid col-6 mx-auto'>
                 <button onClick={() => validar()} className='btn btn-success'>
                   {operation === 1 ? 'Registrar' : 'Actualizar'}
-                  <i className='fas fa-save ms-2'></i> {/* Ícono de disco a la derecha */}
+                  <i className='fas fa-save ms-2'></i> 
                 </button>
                 <button id='btnCerrar' type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
               </div>

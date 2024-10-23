@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import { show_alerta } from '../functions';
+import React from 'react';
 import Navbar from '../components/Navbar';
-import useUser from '../Hooks/useUserHooks'; // Importa el hook
+import useUser from '../Hooks/useUserHooks';
 import '../Styles/user.css';
-import { getRoles } from '../services/rol';
 
 const UserPage = () => {
   const {
     users,
     roles,
     instituciones,
+    nombre1_usuario,
+    nombre2_usuario,
+    apellido1_usuario,
+    apellido2_usuario,
+    rut_usuario,
+    contrasenia_usuario,
+    email_usuario,
+    id_institucion_usuario,
+    id_rol_usuario,
     operation,
     title,
-    openModal,
-    validar,
-    deleteExistingUser,
     setNombre1Usuario,
     setNombre2Usuario,
     setApellido1Usuario,
@@ -24,39 +26,18 @@ const UserPage = () => {
     setRutUsuario,
     setContraseniaUsuario,
     setEmailUsuario,
-    setEstadoCuenta,
     setIdInstitucionUsuario,
     setIdRolUsuario,
-    nombre1_usuario,
-    nombre2_usuario,
-    apellido1_usuario,
-    apellido2_usuario,
-    rut_usuario,
-    email_usuario,
-    contrasenia_usuario,
-    estado_cuenta,
-    id_institucion_usuario,
-    id_rol_usuario,
-    resetForm,
-    getRoleName, // Importa la función desde el hook
+    openModal,
+    validar,
+    getRoleName,
     getInstitucionName,
-    existingRoles, // Devuelve el array de roles existentes
-    existingInstituciones,// Función para obtener el nombre de la institución
-  } = useUser();// Usa el hook
-
-
+  } = useUser();
   
-  console.log( // Devuelve el array de roles existentes
-    existingRoles)
-  // Reset form when modal is closed
-  const handleCloseModal = () => {
-    resetForm();
-  console.log()
-  };
   return (
     <div className='App'>
       <Navbar />
-      <hr />
+      <hr></hr>
       <div className='container-fluid mt-5'>
         <div className='row mt-3'>
           <div className='col-md-4 offset-md-4'>
@@ -67,15 +48,12 @@ const UserPage = () => {
                 style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}
                 data-bs-toggle='modal'
                 data-bs-target='#modalUser'
-                aria-expanded={false}
-                aria-controls='modalUser'
               >
                 <i className='fa fa-plus-circle mt-2'></i> Añadir Usuario
               </button>
             </div>
           </div>
         </div>
-
         <div className='row mt-5'>
           <div className='col-12 col-lg-8 offset-0 offset-lg-2'>
             <div className='table-responsive'>
@@ -92,7 +70,7 @@ const UserPage = () => {
                     <th>Acciones</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className='table-group-divider'>
                   {users.map((user, index) => (
                     <tr key={user.ID_USUARIO}>
                       <td>{index + 1}</td>
@@ -103,21 +81,10 @@ const UserPage = () => {
                       <td>{getInstitucionName(user.ID_INSTITUCION_USUARIO)}</td>
                       <td>{user.ESTADO_CUENTA ? 'Activo' : 'Inactivo'}</td>
                       <td>
-                        <button
-                          onClick={() => openModal(2, user)}
-                          className='btn btn-warning me-2'
-                          data-bs-toggle='modal'
-                          data-bs-target='#modalUser'
-                          aria-expanded={false}
-                          aria-controls='modalUser'
-                        >
+                        <button onClick={() => openModal(2, user.ID_USUARIO, user.NOMBRE1_USUARIO, user.NOMBRE2_USUARIO, user.APELLIDO1_USUARIO, user.APELLIDO2_USUARIO, user.RUT_USUARIO,
+                            user.EMAIL_USUARIO, user.CONTRASENIA_USUARIO, user.ID_ROL_USUARIO, user.ID_INSTITUCION_USUARIO)}
+                          className='btn btn-warning btn-custom' data-bs-toggle='modal' data-bs-target='#modalUser'>
                           <i className='fa-solid fa-edit'></i>
-                        </button>
-                        <button
-                          onClick={() => deleteExistingUser(user.ID_USUARIO, user.NOMBRE1_USUARIO)}
-                          className='btn btn-danger'
-                        >
-                          <i className='fa-solid fa-trash'></i>
                         </button>
                       </td>
                     </tr>
@@ -128,151 +95,98 @@ const UserPage = () => {
           </div>
         </div>
       </div>
-
-      <div className='modal fade' id='modalUser' tabIndex='-1' aria-labelledby='modalLabel' aria-hidden='true'>
+      <div id='modalUser' className='modal fade' aria-hidden='true'>
         <div className='modal-dialog'>
           <div className='modal-content'>
             <div className='modal-header'>
-              <h5 className='modal-title' id='modalLabel'>{title}</h5>
-              <button type='button' className='btn-close' data-bs-dismiss='modal' onClick={handleCloseModal}></button>
+              <label className='h5'>{title}</label>
+              <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='close'></button>
             </div>
             <div className='modal-body'>
-              <div className='mb-3'>
-                <label htmlFor='nombre1' className='form-label'>Primer Nombre</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='nombre1'
-                  onChange={(e) => setNombre1Usuario(e.target.value)}
-                  value={nombre1_usuario}
-                />
+              <input type='hidden' id='id'></input>
+              <div className='input-group mb-3'>
+                <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <input type='text' id='nombre1_usuario' className='form-control' placeholder='Primer nombre' value={nombre1_usuario}
+                  onChange={(e) => setNombre1Usuario(e.target.value)}></input>
               </div>
-              <div className='mb-3'>
-                <label htmlFor='nombre2' className='form-label'>Segundo Nombre</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='nombre2'
-                  onChange={(e) => setNombre2Usuario(e.target.value)}
-                  value={nombre2_usuario}
-                />
+              <div className='input-group mb-3'>
+                <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <input type='text' id='nombre2_usuario' className='form-control' placeholder='Segundo nombre' value={nombre2_usuario}
+                  onChange={(e) => setNombre2Usuario(e.target.value)}></input>
               </div>
-              <div className='mb-3'>
-                <label htmlFor='apellido1' className='form-label'>Primer Apellido</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='apellido1'
-                  onChange={(e) => setApellido1Usuario(e.target.value)}
-                  value={apellido1_usuario}
-                />
+              <div className='input-group mb-3'>
+                <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <input type='text' id='apellido1_usuario' className='form-control' placeholder='Primer apellido' value={apellido1_usuario}
+                  onChange={(e) => setApellido1Usuario(e.target.value)}></input>
               </div>
-              <div className='mb-3'>
-                <label htmlFor='apellido2' className='form-label'>Segundo Apellido</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='apellido2'
-                  onChange={(e) => setApellido2Usuario(e.target.value)}
-                  value={apellido2_usuario}
-                />
+              <div className='input-group mb-3'>
+                <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <input type='text' id='apellido2_usuario' className='form-control' placeholder='Segundo apellido' value={apellido2_usuario}
+                  onChange={(e) => setApellido2Usuario(e.target.value)}></input>
               </div>
-              <div className='mb-3'>
-                <label htmlFor='rut' className='form-label'>RUT</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='rut'
-                  onChange={(e) => setRutUsuario(e.target.value)}
-                  value={rut_usuario}
-                />
+              <div className='input-group mb-3'>
+                <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <input type='text' id='rut_usuario' className='form-control' placeholder='RUT del usuario' value={rut_usuario}
+                  onChange={(e) => setRutUsuario(e.target.value)}></input>
               </div>
-              <div className='mb-3'>
-                <label htmlFor='correo' className='form-label'>Correo</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='correo'
-                  onChange={(e) => setEmailUsuario(e.target.value)}
-                  value={email_usuario}
-                />
+              <div className='input-group mb-3'>
+                <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <input type='text' id='email_usuario' className='form-control' placeholder='Correo del Usuario' value={email_usuario}
+                  onChange={(e) => setEmailUsuario(e.target.value)}></input>
               </div>
-              <div className='mb-3'>
-                <label htmlFor='contrasena' className='form-label'>Contraseña</label>
-                <input
-                  type='password'
-                  className='form-control'
-                  id='contrasena'
-                  onChange={(e) => setContraseniaUsuario(e.target.value)}
-                  value={contrasenia_usuario}
-                />
+              <div className='input-group mb-3'>
+                <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                <input type='password' id='contrasenia_usuario' className='form-control' placeholder='Contraseña' value={contrasenia_usuario}
+                  onChange={(e) => setContraseniaUsuario(e.target.value)}></input>
               </div>
-              <div className='mb-3'>
-              <label htmlFor='rol' className='form-label'>Rol</label>
-              <select
-                className='form-control'
-                name='id_rol'
-                value={id_rol_usuario}
-                onChange={(e) => setIdRolUsuario(e.target.value)}
-                style={{ color: 'black' }} // Establece un color para el texto
-              >
-                <option value=''>Seleccione un rol</option>
-                {existingRoles.map((rol) => (
-                  <option key={rol.id_rol} value={rol.id_rol}>
-                    {rol.nombre_rol}
-                  </option>
-                ))}
-              </select>
-            </div>
-            
-            
-              {/* Select de Instituciones */}
-              <div className='mb-3'>
-                <label>Institución</label>
-                <select
-                  className='form-control'
-                  name='id_institucion'
-                  value={id_institucion_usuario}
-                  onChange={(e) => setIdInstitucionUsuario(e.target.value)}
-                >
-                  <option value=''>Seleccione una institución</option>
-                  {instituciones.map((inst) => (
-                    <option key={inst.id_institucion} value={inst.id_institucion}>
-                      {inst.nombre_institucion}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className='mb-3'>
-                <label htmlFor='estado' className='form-label'>Estado</label>
-                <select
-                  className='form-control'
-                  value={estado_cuenta}
-                  onChange={(e) => setEstadoCuenta(e.target.value)}
-                >
-                  <option value='true'>Activo</option>
-                  <option value='false'>Inactivo</option>
-                </select>
-              </div>
-
-              <div className='modal-footer'>
-                <button
-                  type='button'
-                  className='btn btn-secondary'
-                  data-bs-dismiss='modal'
-                  onClick={handleCloseModal}
-                >
-                  Cerrar
+              {/* Aquí se decide si mostrar los selectores o no */}
+            {operation === 1 && (  // Solo mostrar en creación
+              <>
+                <div className='input-group mb-3'>
+                  <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                  <select
+                    className='form-control'
+                    name='id_rol'
+                    value={id_rol_usuario}
+                    onChange={(e) => {
+                      setIdRolUsuario(e.target.value);
+                      console.log("Rol seleccionado:", e.target.value);
+                    }}
+                    style={{ color: 'black' }}
+                  >
+                    <option value=''>Seleccione un rol</option>
+                    {roles.map((rol) => (
+                      <option key={rol.ID_ROL} value={rol.ID_ROL}>
+                        {rol.NOMBRE_ROL}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className='input-group mb-3'>
+                  <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                  <select
+                    className='form-control'
+                    name='id_institucion'
+                    value={id_institucion_usuario}
+                    onChange={(e) => setIdInstitucionUsuario(e.target.value)}
+                  >
+                    <option value=''>Seleccione una institución</option>
+                    {instituciones.map((inst) => (
+                      <option key={inst.ID_INSTITUCION} value={inst.ID_INSTITUCION}>
+                        {inst.NOMBRE_INSTITUCION}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
+              <div className='d-grid col-6 mx-auto'>
+                <button onClick={() => validar()} className='btn btn-success'>
+                  {operation === 1 ? 'Registrar' : 'Actualizar'}
+                  <i className='fas fa-save ms-2'></i> 
                 </button>
-                <button
-                  type='button'
-                  className='btn btn-primary'
-                  onClick={validar}
-                >
-                  Guardar
-                </button>
-              </div>
+                <button id='btnCerrar' type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+                </div>
             </div>
           </div>
         </div>

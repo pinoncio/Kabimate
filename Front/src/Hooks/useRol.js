@@ -12,6 +12,8 @@ export const useRol = () => {
   const [operation, setOperation] = useState(1);
   const [title, setTitle] = useState('');
   const MySwal = withReactContent(Swal);
+  
+  
   useEffect(() => {
     fetchAllRoles();
   }, []);
