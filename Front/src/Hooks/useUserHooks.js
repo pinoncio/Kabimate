@@ -1,9 +1,10 @@
 // hooks/useUser.js
 import { useEffect, useState } from 'react';
 import { show_alerta } from '../functions';
-import { getUsers, createUser, updateUser} from '../services/user';
+import { getUsers, createUser, updateUser, activateUser, deactivateUser } from '../services/user';
 import { getRoles } from '../services/rol';
 import { getInstituciones } from '../services/Insti';
+import '../Styles/user.css';
 
 const useUser = () => {
   const [users, setUsers] = useState([]);
@@ -114,15 +115,12 @@ const useUser = () => {
       id_rol_usuario: id_rol_usuario.trim() || null,  
     };
     
-    
     if (operation === 1) {
       createNewUser(parametros);
     } else {
       updateExistingUser(id_usuario, parametros);
     }
-};
-
-  
+  };
 
   const createNewUser = async (user) => {
     try {
@@ -139,10 +137,6 @@ const useUser = () => {
   const updateExistingUser = async (id_usuario, user) => {
     console.log("Actualizando usuario con ID:", id_usuario, "Datos:", user);
     
-    // Asegúrate de que id_institucion_usuario y id_rol_usuario tengan los valores correctos
-    console.log("ID Institución:", user.id_institucion_usuario);
-    console.log("ID Rol:", user.id_rol_usuario);
-    
     try {
       await updateUser(id_usuario, user);
       show_alerta('El usuario fue editado con éxito.', 'success');
@@ -153,9 +147,30 @@ const useUser = () => {
       show_alerta('Error al actualizar el usuario', 'error');
     }
   };
-  
-  
-  
+
+  // Nueva función toggleUserStatus
+  const toggleUserStatus = async (id_usuario) => {
+    try {
+      const user = users.find(user => user.ID_USUARIO === id_usuario);
+      if (!user) {
+        show_alerta('Usuario no encontrado', 'error');
+        return;
+      }
+
+      let response;
+      if (user.estado_cuenta) {
+        response = await deactivateUser(id_usuario);
+      } else {
+        response = await activateUser(id_usuario);
+      }
+
+      show_alerta(response.msg, 'success');
+      getAllUsers();
+    } catch (error) {
+      console.error('Error al cambiar el estado del usuario:', error);
+      show_alerta('Error al cambiar el estado del usuario', 'error');
+    }
+  };
 
   const getRoleName = (id_rol) => {
     const role = roles.find((r) => r.ID_ROL === id_rol);
@@ -167,7 +182,6 @@ const useUser = () => {
     return institucion ? institucion.NOMBRE_INSTITUCION : 'Sin Institución';
   };
 
-   
   return {
     users,
     roles,
@@ -202,8 +216,8 @@ const useUser = () => {
     getAllInstituciones,
     getRoleName,
     getInstitucionName,
+    toggleUserStatus,
   };
-  
 };
 
 export default useUser;

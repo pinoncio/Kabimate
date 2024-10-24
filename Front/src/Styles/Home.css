@@ -4,11 +4,15 @@
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 80px); /* Mantener el fondo completo y restar la altura del navbar */
-    background-color: #f5f5f0; /* Blanco beige */
+    background-image: url('../Images/email-pattern.png'); /* Ruta local del patrón */
+    background-size: 150px; /* Ajusta el tamaño del patrón según tu preferencia */
+    background-repeat: repeat; /* Repetir el patrón */
+    background-color: #f5f5f0; /* Blanco beige (opcional) */
     text-align: center; /* Centra el texto */
     padding: 20px; /* Espaciado interno */
-    margin-top: 40px; /* Margen superior para evitar que el contenido choque con el navbar */
+
 }
+
 
 .search-form {
     display: flex;

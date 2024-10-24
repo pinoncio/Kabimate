@@ -32,8 +32,9 @@ const UserPage = () => {
     validar,
     getRoleName,
     getInstitucionName,
+    toggleUserStatus, // Asegúrate de que esta función esté definida en tu hook
   } = useUser();
-  
+
   return (
     <div className='App'>
       <Navbar />
@@ -79,11 +80,24 @@ const UserPage = () => {
                       <td>{user.EMAIL_USUARIO}</td>
                       <td>{getRoleName(user.ID_ROL_USUARIO)}</td>
                       <td>{getInstitucionName(user.ID_INSTITUCION_USUARIO)}</td>
-                      <td>{user.ESTADO_CUENTA ? 'Activo' : 'Inactivo'}</td>
                       <td>
-                        <button onClick={() => openModal(2, user.ID_USUARIO, user.NOMBRE1_USUARIO, user.NOMBRE2_USUARIO, user.APELLIDO1_USUARIO, user.APELLIDO2_USUARIO, user.RUT_USUARIO,
-                            user.EMAIL_USUARIO, user.CONTRASENIA_USUARIO, user.ID_ROL_USUARIO, user.ID_INSTITUCION_USUARIO)}
-                          className='btn btn-warning btn-custom' data-bs-toggle='modal' data-bs-target='#modalUser'>
+                        <label className='switch'>
+                          <input 
+                            type='checkbox' 
+                            checked={user.ESTADO_CUENTA} 
+                            onChange={() => toggleUserStatus(user.ID_USUARIO)} // Llama a la función para cambiar el estado
+                          />
+                          <span className='slider round'></span>
+                        </label>
+                      </td>
+                      <td>
+                        <button 
+                          onClick={() => openModal(2, user.ID_USUARIO, user.NOMBRE1_USUARIO, user.NOMBRE2_USUARIO, user.APELLIDO1_USUARIO, user.APELLIDO2_USUARIO, user.RUT_USUARIO,
+                              user.EMAIL_USUARIO, user.CONTRASENIA_USUARIO, user.ID_ROL_USUARIO, user.ID_INSTITUCION_USUARIO)}
+                          className='btn btn-warning btn-custom' 
+                          data-bs-toggle='modal' 
+                          data-bs-target='#modalUser'
+                        >
                           <i className='fa-solid fa-edit'></i>
                         </button>
                       </td>
@@ -139,54 +153,51 @@ const UserPage = () => {
                 <input type='password' id='contrasenia_usuario' className='form-control' placeholder='Contraseña' value={contrasenia_usuario}
                   onChange={(e) => setContraseniaUsuario(e.target.value)}></input>
               </div>
-              {/* Aquí se decide si mostrar los selectores o no */}
-            {operation === 1 && (  // Solo mostrar en creación
-              <>
-                <div className='input-group mb-3'>
-                  <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
-                  <select
-                    className='form-control'
-                    name='id_rol'
-                    value={id_rol_usuario}
-                    onChange={(e) => {
-                      setIdRolUsuario(e.target.value);
-                      console.log("Rol seleccionado:", e.target.value);
-                    }}
-                    style={{ color: 'black' }}
-                  >
-                    <option value=''>Seleccione un rol</option>
-                    {roles.map((rol) => (
-                      <option key={rol.ID_ROL} value={rol.ID_ROL}>
-                        {rol.NOMBRE_ROL}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className='input-group mb-3'>
-                  <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
-                  <select
-                    className='form-control'
-                    name='id_institucion'
-                    value={id_institucion_usuario}
-                    onChange={(e) => setIdInstitucionUsuario(e.target.value)}
-                  >
-                    <option value=''>Seleccione una institución</option>
-                    {instituciones.map((inst) => (
-                      <option key={inst.ID_INSTITUCION} value={inst.ID_INSTITUCION}>
-                        {inst.NOMBRE_INSTITUCION}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </>
-            )}
+              {operation === 1 && (  // Solo mostrar en creación
+                <>
+                  <div className='input-group mb-3'>
+                    <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                    <select
+                      className='form-control'
+                      name='id_rol'
+                      value={id_rol_usuario}
+                      onChange={(e) => {
+                        setIdRolUsuario(e.target.value);
+                        console.log("Rol seleccionado:", e.target.value);
+                      }}
+                      style={{ color: 'black' }}
+                    >
+                      <option value=''>Seleccione un rol</option>
+                      {roles.map((rol) => (
+                        <option key={rol.ID_ROL} value={rol.ID_ROL}>
+                          {rol.NOMBRE_ROL}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='input-group mb-3'>
+                    <span className='input-group-text'><i className='fa-solid fa-gift'></i></span>
+                    <select
+                      className='form-control'
+                      name='id_institucion'
+                      value={id_institucion_usuario}
+                      onChange={(e) => setIdInstitucionUsuario(e.target.value)}
+                    >
+                      <option value=''>Seleccione una institución</option>
+                      {instituciones.map((inst) => (
+                        <option key={inst.ID_INSTITUCION} value={inst.ID_INSTITUCION}>
+                          {inst.NOMBRE_INSTITUCION}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
               <div className='d-grid col-6 mx-auto'>
-                <button onClick={() => validar()} className='btn btn-success'>
-                  {operation === 1 ? 'Registrar' : 'Actualizar'}
-                  <i className='fas fa-save ms-2'></i> 
+                <button onClick={validar} className='btn w-100' style={{ backgroundColor: '#a47551', borderColor: '#a47551', color: 'white' }}>
+                  {operation === 1 ? 'Crear Usuario' : 'Actualizar Usuario'}
                 </button>
-                <button id='btnCerrar' type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
-                </div>
+              </div>
             </div>
           </div>
         </div>

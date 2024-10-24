@@ -1,25 +1,74 @@
-import React from 'react';
-import '../Styles/Navbar.css';
-import { Link } from 'react-router-dom';
-import { FaQuestionCircle, FaUser } from 'react-icons/fa'; 
+// src/components/Navbar.js
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../services/AuthContext';
+import { FaDoorOpen, FaUser } from 'react-icons/fa';
 
 const Navbar = () => {
-    return (
-      <nav className="navbar">
-        <Link to="/" className="navbar-title">KABIMATE</Link> {}
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-        <div className="navbar-right">
-          <Link to="/admin" className="navbar-link">Admin</Link> {}
-          <Link to="/historial" className="navbar-link">Historial</Link> {}
-          <Link to="/reservas" className="navbar-link">Reservas</Link> {}
-          <Link to="/perfil" className="navbar-link">Perfil</Link> {}
-          <Link to="/login" className="navbar-login">
-            <FaUser /> Iniciar sesión
-          </Link>
-          <FaQuestionCircle className="navbar-help-icon" />
+  const handleLogout = () => {
+    logout();
+    localStorage.clear();
+    navigate('/login'); 
+  };
+
+  const rol = localStorage.getItem('rol');
+
+  return (
+    <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#a47551' }}>
+      <div className="container-fluid">
+        <Link to="/" className="navbar-brand text-white fs-3" style={{ textTransform: 'uppercase' }}>KABIMATE</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul className="navbar-nav">
+            {isAuthenticated ? (
+              <>
+                {rol === '1' ? (
+                  <>
+                    <li className="nav-item">
+                      <Link to="/admin" className="nav-link text-white">Perfil</Link>
+                    </li>
+                    <li className="nav-item">
+                      <button onClick={handleLogout} className="btn btn-link nav-link text-white">
+                        <FaDoorOpen /> Cerrar sesión
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="nav-item">
+                      <Link to="/" className="nav-link text-white">Reservas</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/" className="nav-link text-white">Historial</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/perfil" className="nav-link text-white">Perfil</Link>
+                    </li>
+                    <li className="nav-item">
+                      <button onClick={handleLogout} className="btn btn-link nav-link text-white">
+                        <FaDoorOpen /> Cerrar sesión
+                      </button>
+                    </li>
+                  </>
+                )}
+              </>
+            ) : (
+              <li className="nav-item">
+                <Link to="/login" className="nav-link text-white"> 
+                  <FaUser/>  Iniciar sesión
+                </Link>
+              </li>
+            )}
+          </ul>
         </div>
-      </nav>
-    );
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;

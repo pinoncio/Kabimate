@@ -6,15 +6,14 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-// Interceptar respuestas
 api.interceptors.response.use(
   (response) => {
-    // Si la respuesta tiene un token, un rol y un idUser, los extraemos y los guardamos en el localStorage
+    // Verificar que la respuesta contenga los datos necesarios
     if (response.data && response.data.token && response.data.rol && response.data.idUser) {
       const { token, rol, idUser } = response.data;
       localStorage.setItem('token', token);
-      localStorage.setItem('rol', rol);
-      localStorage.setItem('idUser', idUser); 
+      localStorage.setItem('rol', rol); // Aquí almacenas el rol
+      localStorage.setItem('idUser', idUser); // Aquí almacenas el id de usuario
     }
     return response;
   },

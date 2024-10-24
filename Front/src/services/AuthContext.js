@@ -39,10 +39,12 @@ export const AuthProvider = ({ children }) => {
     );
   }, []); // Ejecutar solo una vez al montar el componente
 
-  const login = (token) => {
+  const login = (token, rol) => {
     localStorage.setItem('token', token);
+    localStorage.setItem('rol', rol); // Asegúrate de almacenar el rol aquí
     setIsAuthenticated(true);
-  };
+};
+
 
   const logout = () => {
     localStorage.removeItem('token');
